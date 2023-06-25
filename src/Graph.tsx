@@ -33,7 +33,7 @@ class Graph extends Component<IProps, {}> {
   componentDidMount() {
     // Get element to attach the table from the DOM.
     const elem: PerspectiveViewerElement = document.getElementsByTagName('perspective-viewer')[0] as unknown as PerspectiveViewerElement;
-
+         
     const schema = {
       stock: 'string',
       top_ask_price: 'float',
@@ -48,9 +48,18 @@ class Graph extends Component<IProps, {}> {
       // Load the `table` in the `<perspective-viewer>` DOM reference.
 
       // Add more Perspective configurations here.
+      elem.SetAttribute('view','y_line');
+      elem.SetAttribute('column-pivots','["stock"]');
+      elem.SetAttribute('row-pivots','["stock"]');
+      elem.SetAttribute('columns','["top_ask_price"]');
+      elem.SetAttribute('aggregates',`
+                       {"stock":"distinct count",
+                        "top_ask_price":"avg",
+                        "top_bid_price":"avg",
+                       "timestamp";"distinct count"}`);
       elem.load(this.table);
     }
-  }
+     
 
   componentDidUpdate() {
     // Everytime the data props is updated, insert the data into Perspective table
